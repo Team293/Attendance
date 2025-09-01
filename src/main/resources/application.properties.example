@@ -1,0 +1,21 @@
+datasource.db.url=
+datasource.db.username=
+datasource.db.password=
+datasource.db.driver=org.postgresql.Driver
+ebean.platform=postgres
+
+ebean.ddl.generate=true   # generate DDL from entities
+ebean.ddl.run=true        # run the generated DDL at startup
+ebean.ddl.mode=create   # or: create
+
+# See the SQL it tries to run
+ebean.debug.sql=true
+ebean.debug.lazyload=false
+ebean.dbSchema=public
+ebean.db.ddl.generate=true
+ebean.db.ddl.run=true
+
+app.groups[0].slack-id=S09CW5VQK7T
+app.groups[0].priority=1000
+
+app.single-message-groups=shop_session
