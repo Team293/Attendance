@@ -21,23 +21,24 @@ public class Hours implements Command {
     @Override
     public void execute(SlashCommandRequest req, Response res) {
         String userHandle = getOptionValue(req, 0, String.class).replace("@", "");
-        String userId = null;
+        Action<String> getUserIdByHandleAction = Main.getAction("get_user_id_from_handle");
+        ActionResponse<String> userIdResponse = getUserIdByHandleAction.executeSafe(
+                List.of(Action.createParameter("userHandle", String.class, userHandle))
+        );
 
-        try {
-            UsersListResponse usersListResponse = Main.slack.methods().usersList(r -> r.token(Main.token));
-            if (usersListResponse.isOk() && usersListResponse.getMembers() != null) {
-                for (User user : usersListResponse.getMembers()) {
-                    if (userHandle.equals(user.getName())) {
-                        userId = user.getId();
-                        break;
-                    }
-                }
+        if (!userIdResponse.isSuccess()) {
+            String errorMessage = userIdResponse.getMessage() != null
+                    ? userIdResponse.getMessage()
+                    : "An error occurred while retrieving the user ID.";
+            try {
+                Main.app.client().chatPostMessage(r -> r
+                        .channel(req.getPayload().getChannelId())
+                        .text(errorMessage)
+                );
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            if (userId == null) {
-                throw new IllegalArgumentException("User handle not found: @" + userHandle);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to resolve user handle to ID", e);
+            return;
         }
 
         String range = getOptionValue(req, 1, String.class);
@@ -80,7 +81,7 @@ public class Hours implements Command {
 
         ActionResponse<Integer> actionResponse = calculateHoursForUserAction.executeSafe(
                 List.of(
-                        Action.createParameter("userId", String.class, userId),
+                        Action.createParameter("userId", String.class, userIdResponse.getData()),
                         Action.createParameter("allTime", Boolean.class, range == null || range.equalsIgnoreCase("all")),
                         Action.createParameter("startDate", LocalDateTime.class, startTime),
                         Action.createParameter("endDate", LocalDateTime.class, endTime)
@@ -90,7 +91,7 @@ public class Hours implements Command {
         if (actionResponse.isSuccess()) {
             Integer hours = actionResponse.getData();
             String message = (hours != null)
-                    ? String.format("User <@%s> has logged %d hours.", userId, hours)
+                    ? String.format("User <@%s> has logged %d hours.", userIdResponse.getData(), hours)
                     : "Could not retrieve hours.";
             try {
                 Main.app.client().chatPostMessage(r -> r
