@@ -3,7 +3,7 @@ FROM gradle:8.3-jdk17 AS builder
 WORKDIR /app
 
 # Copy Gradle wrapper and project files
-COPY build.gradle.kts settings.gradle.kts gradle.properties /app/
+COPY build.gradle.kts settings.gradle.kts /app/
 COPY gradle /app/gradle
 COPY src /app/src
 
