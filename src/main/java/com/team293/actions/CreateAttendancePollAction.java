@@ -75,10 +75,10 @@ public class CreateAttendancePollAction implements Action<Void> {
                 }
             }
 
-            if (event.getEndTime() != null && event.getEndTime().isBefore(LocalDateTime.now())) {
-                ctx.respond("Sorry, this event has already ended.");
-                return ctx.ack();
-            }
+//            if (event.getEndTime() != null && event.getEndTime().isBefore(LocalDateTime.now())) {
+//                ctx.respond("Sorry, this event has already ended.");
+//                return ctx.ack();
+//            }
 
             AttendanceEntry entry = new AttendanceEntry();
             entry.setUserId(userId);
