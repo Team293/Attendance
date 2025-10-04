@@ -1,20 +1,15 @@
 package com.team293.actions;
 
 import com.slack.api.methods.SlackApiException;
-import com.slack.api.model.User;
 import com.team293.Main;
-import com.team293.actions.dto.UserGroupInfoRes;
 import com.team293.actions.util.AttendanceMessenger;
-import com.team293.config.AppConfig;
 import com.team293.entities.AttendanceEntry;
 import com.team293.entities.TimedEvent;
 import com.team293.util.action.Action;
 import com.team293.util.action.ActionParameter;
 import com.team293.util.action.ActionResponse;
-import kotlin.Pair;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class CreateAttendancePollAction implements Action<Void> {

@@ -5,16 +5,12 @@ import com.slack.api.bolt.response.Response;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.User;
 import com.team293.Main;
-import com.team293.entities.AttendanceEntry;
 import com.team293.util.action.Action;
 import com.team293.util.action.ActionResponse;
 import com.team293.util.command.Command;
 import kotlin.Pair;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AttendanceHourList implements Command {

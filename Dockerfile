@@ -12,6 +12,7 @@ RUN gradle shadowJar --no-daemon
 
 # Run with JRE 21
 FROM eclipse-temurin:21-jre
+
 WORKDIR /app
 COPY --from=builder /app/build/libs/*-all.jar app.jar
 EXPOSE 8080

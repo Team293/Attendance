@@ -2,8 +2,6 @@ package com.team293.commands;
 
 import com.slack.api.bolt.request.builtin.SlashCommandRequest;
 import com.slack.api.bolt.response.Response;
-import com.slack.api.methods.response.users.UsersListResponse;
-import com.slack.api.model.User;
 import com.team293.Main;
 import com.team293.util.action.Action;
 import com.team293.util.action.ActionResponse;
